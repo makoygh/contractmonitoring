@@ -1,0 +1,65 @@
+@extends('sales.sales_dashboard')
+@section('sales')
+
+
+<div class="page-content">
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Contract</a></li>
+        <li class="breadcrumb-item active" aria-current="page">All Contracts</li>
+    </ol>
+
+    <a href="{{ route('sales.new.contract') }}" class="btn btn-outline-primary">Add New Contract</a>
+</nav>
+
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+<div class="card">
+<div class="card-body">
+<h6 class="card-title">All Created Contracts</h6>
+<!--<p class="text-muted mb-3">Read the <a href="https://datatables.net/" target="_blank"> Official DataTables Documentation </a>for a full list of instructions and other options.</p>-->
+<div class="table-responsive">
+  <table id="dataTableExample" class="table">
+    <thead>
+      <tr>
+        <th>Client Name</th>
+        <th>Project Name</th>
+        <th>Start Date</th>
+        <th>End of Contract</th>
+        <th>Contract Signed</th>
+        <th>Filename</th>
+        <th>Created By</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    @foreach($createdContracts as $key => $item)
+      <tr>
+        <td>{{ $item->client_name }}</td>
+        <td>{{ $item->project_name }}</td>
+        <td>{{ $item->contract_start }}</td>
+        <td>{{ $item->contract_end }}</td>
+        <td>{{ $item->contract_signed }}</td>
+        <td>{{ $item->contract_filename }}</td>
+        <td>{{ $item->name }}</td>
+        <td>{{ $item->contract_status }}</td>
+        <td>
+        <a href="{{ route('sales.edit.contract',$item->id) }}" class="btn btn-inverse-warning">Edit</a>
+        <a href="#" class="btn btn-inverse-danger" id="delete">Delete</a>    
+
+        </td>
+      </tr>
+    @endforeach 
+    </tbody>
+  </table>
+</div>
+</div>
+</div>
+    </div>
+</div>
+
+</div>
+
+@endsection

@@ -34,7 +34,9 @@ class ClientContractController extends Controller
     public function NewContract(){
 
         //$clientData = DQClients::latest()
-        $clientData = DQClients::query()
+        //$clientData = DQClients::query()
+        $clientData = DB::table('clients')
+        ->query()
         ->orderBy('client_name')
         ->get();
         //$userData = User::latest()->get();
@@ -100,7 +102,9 @@ class ClientContractController extends Controller
 
         $contractData = clientcontract::findOrFail($id);
 
-        $clientData = DQClients::query()
+        //$clientData = DQClients::query()
+        $clientData = DB::table('clients')
+        ->query()
         ->orderBy('client_name')
         ->get();
 

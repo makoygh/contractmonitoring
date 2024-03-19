@@ -5,7 +5,7 @@ use App\Models\DQClients;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use DB;
 
 class ClientController extends Controller
 {
@@ -15,10 +15,14 @@ class ClientController extends Controller
     public function AllClient(){
 
         $registeredClients = DQClients::latest()->get();
+        //$registeredClients = DB::table('clients')
+        //->latest()
+        //->get();
         
         $quarterly_proposals = '';
+        $approval_rate='';
         
-        return view('backend.client.all_client',compact('registeredClients','quarterly_proposals'));
+        return view('backend.client.all_client',compact('registeredClients','quarterly_proposals','approval_rate'));
 
     }
 
@@ -27,8 +31,9 @@ class ClientController extends Controller
 
         //return view('backend.client.new_client');
         $quarterly_proposals = '';
+        $approval_rate = '';
 
-        return view('backend.client.new_client',compact('quarterly_proposals'));
+        return view('backend.client.new_client',compact('quarterly_proposals','approval_rate'));
 
     }
 
@@ -63,6 +68,7 @@ class ClientController extends Controller
         );
 
         $quarterly_proposals = '';
+        $approval_rate = '';
 
         // page refresh
         return redirect()->route('all.client')->with($notification);
@@ -75,10 +81,13 @@ class ClientController extends Controller
     public function EditClient($id){
 
         $clientData = DQClients::findOrFail($id);
+        //$clientData = DB::table('clients')
+        //->findOrFail($id);
 
         $quarterly_proposals = '';
+        $approval_rate = '';
 
-        return view('backend.client.edit_client',compact('clientData','quarterly_proposals'));
+        return view('backend.client.edit_client',compact('clientData','quarterly_proposals','approval_rate'));
 
     }
 
@@ -99,6 +108,7 @@ class ClientController extends Controller
 
         // Update the record to DB
         DQClients::findOrFail($cid)->update([
+        //DB::table('clients')->findOrFail($cid)->update([
             'client_name' => $request->client_name,
             'client_addr' => $request->client_address,
             'client_country' => $request->client_country,
@@ -114,6 +124,7 @@ class ClientController extends Controller
         );
 
         $quarterly_proposals = '';
+        $approval_rate = '';
 
         // page refresh
         return redirect()->route('all.client')->with($notification);
@@ -131,6 +142,7 @@ class ClientController extends Controller
     public function DeleteClient($id){
 
         DQClients::findOrFail($id)->delete();
+        //DB::table('clients')->findOrFail($id)->delete();
 
         $notification = array(
             'message' => 'Client Deleted Successfully',

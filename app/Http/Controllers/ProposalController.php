@@ -37,6 +37,8 @@ class ProposalController extends Controller
 
         //$clientData = DQClients::latest()
         $clientData = DQClients::query()
+       // $clientData = DB::table('clients')::query()
+        //->query()
         ->orderBy('client_name')
         ->get();
         //$userData = User::latest()->get();
@@ -104,6 +106,8 @@ public function StoreNewProposal(Request $request){
         $proposalData = Proposals::findOrFail($id);
 
         $clientData = DQClients::query()
+        //$clientData = DB::table('clients')
+        //->query()
         ->orderBy('client_name')
         ->get();
 
@@ -208,6 +212,8 @@ public function StoreNewProposal(Request $request){
 
         //$clientData = DQClients::latest()
         $clientData = DQClients::query()
+        //$clientData = DB::table('clients')
+        //->query()
         ->orderBy('client_name')
         ->get();
         //$userData = User::latest()->get();
@@ -276,6 +282,8 @@ public function SalesStoreNewProposal(Request $request){
         $proposalData = Proposals::findOrFail($id);
 
         $clientData = DQClients::query()
+        //$clientData = DB::table('clients')
+        //->query()
         ->orderBy('client_name')
         ->get();
 

@@ -7,17 +7,17 @@
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Client</a></li>
-        <li class="breadcrumb-item active" aria-current="page">All Clients</li>
+        <li class="breadcrumb-item active" aria-current="page">News Clients Report</li>
     </ol>
 
-    <a href="{{ route('sales.new.client') }}" class="btn btn-outline-primary">Add New Client</a>
+    <!-- <a href="{{ route('new.client') }}" class="btn btn-outline-primary">Add New Client</a> -->
 </nav>
 
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
 <div class="card">
 <div class="card-body">
-<h6 class="card-title">All Registered Clients</h6>
+<h6 class="card-title">New Clients Report (Past 30 days)</h6>
 <!--<p class="text-muted mb-3">Read the <a href="https://datatables.net/" target="_blank"> Official DataTables Documentation </a>for a full list of instructions and other options.</p>-->
 <div class="table-responsive">
   <table id="dataTableExample" class="table">
@@ -33,7 +33,7 @@
       </tr>
     </thead>
     <tbody>
-    @foreach($registeredClients as $key => $item)
+    @foreach($newClientsData as $key => $item)
       <tr>
         <td>{{ $item->client_name }}</td>
         <td>{{ $item->client_addr }}</td>
@@ -42,8 +42,8 @@
         <td>{{ $item->client_status }}</td>
         <td>{{ $item->created_at }}</td>
         <td>
-        <a href="{{ route('sales.edit.client', $item->id) }}" class="btn btn-inverse-warning">Edit</a>
-        <a href="{{ route('sales.delete.client', $item->id) }}" class="btn btn-inverse-danger" id="delete">Delete</a>    
+        <a href="{{ route('sales.edit.client',$item->id) }}" class="btn btn-inverse-warning">Edit</a>
+        <a href="{{ route('sales.delete.client',$item->id) }}" class="btn btn-inverse-danger" id="delete">Delete</a>    
 
         </td>
       </tr>

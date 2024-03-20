@@ -28,6 +28,7 @@
         <th>Country</th>
         <th>Contact Person</th>
         <th>Status</th>
+        <th>Date Created</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -39,6 +40,7 @@
         <td>{{ $item->client_country }}</td>
         <td>{{ $item->client_contactperson }}</td>
         <td>{{ $item->client_status }}</td>
+        <td>{{ $item->created_at }}</td>
         <td>
         <a href="{{ route('edit.client',$item->id) }}" class="btn btn-inverse-warning">Edit</a>
         <a href="{{ route('delete.client',$item->id) }}" class="btn btn-inverse-danger" id="delete">Delete</a>    

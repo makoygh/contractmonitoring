@@ -50,7 +50,7 @@
                         </div>
                         <div class="row">
                         <div class="col-6 col-md-12 col-xl-5">
-                            <h2 class="mb-2" style="font-size: 50px">{{ $contract_count }}</h2>
+                            <h2 class="mb-2" style="font-size: 50px"><a href="{{ route('sales.new.contracts.report') }}"> {{ $contract_count }} </a></h2>
                             <div class="d-flex align-items-baseline">
                             <!--<p class="text-success">
                                 <span>+3.3%</span>
@@ -87,7 +87,7 @@
                         </div>
                         <div class="row">
                         <div class="col-6 col-md-12 col-xl-5">
-                            <h3 class="mb-2" style="font-size: 50px"> {{ $client_count }} </h3>
+                            <h3 class="mb-2" style="font-size: 50px"> <a href="{{ route('sales.new.clients.report') }}"> {{ $client_count }} </a></h3>
                             <div class="d-flex align-items-baseline">
                             <!--<p class="text-danger">
                                 <span>-2.8%</span>
@@ -124,7 +124,7 @@
                         </div>
                         <div class="row">
                         <div class="col-6 col-md-12 col-xl-5">
-                            <h3 class="mb-2" style="font-size: 50px"> {{ $contract_expire }} </h3>
+                            <h3 class="mb-2" style="font-size: 50px"> <a href="{{ route('sales.all.expire.contracts') }}"> {{ $contract_expire }} </a> </h3>
                             <div class="d-flex align-items-baseline">
                            <!-- <p class="text-success">
                                 <span>+2.8%</span>

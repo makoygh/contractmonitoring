@@ -129,6 +129,9 @@
             </a>
             <div class="collapse" id="activeclients">
               <ul class="nav sub-menu">
+              <li class="nav-item">
+                  <a href="{{ route('new.clients.report') }}" class="nav-link">New Clients</a>
+                </li>                
                 <li class="nav-item">
                   <a href="#" class="nav-link">Active Clients</a>
                 </li>
@@ -151,10 +154,10 @@
             <div class="collapse" id="contracts">
               <ul class="nav sub-menu">
                 <li class="nav-item">
-                  <a href="#" class="nav-link">Active Contracts</a>
+                  <a href="{{ route('new.contracts.report') }}" class="nav-link">Active Contracts</a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">Approaching Expiration</a>
+                  <a href="{{ route('all.expire.contracts') }}" class="nav-link">Approaching Expiration</a>
                 </li>
                 <!--<li class="nav-item">
                   <a href="#" class="nav-link">Schedule</a>

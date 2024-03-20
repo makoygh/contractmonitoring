@@ -47,7 +47,8 @@
         <td>{{ $item->contract_status }}</td>
         <td>
         <a href="{{ route('sales.edit.contract',$item->id) }}" class="btn btn-inverse-warning">Edit</a>
-        <a href="#" class="btn btn-inverse-danger" id="delete">Delete</a>    
+        <a href="{{ route('sales.delete.contract',$item->id) }}" class="btn btn-inverse-danger" id="delete">Delete</a>    
+        <a href="{{ '/upload/contracts/'.$item->contract_filename}}" class="btn btn-inverse-primary" download>Download</a>
 
         </td>
       </tr>

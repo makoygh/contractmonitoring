@@ -9,6 +9,7 @@ use App\Http\Controllers\ClientContractController; // Client - Contract Relation
 use App\Http\Controllers\ProposalController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -113,6 +114,12 @@ Route::middleware(['auth','role:sales'])->group(function() {
         Route::post('/sales/store/newcontract', 'SalesStoreNewContract')->name('sales.store.newcontract');
         Route::get('/sales/edit/contract/{id}', 'SalesEditContract')->name('sales.edit.contract');
         Route::post('/sales/save/editcontract', 'SalesSaveEditContract')->name('sales.save.editcontract');
+        Route::get('/sales/delete/contract/{id}', 'SalesDeleteContract')->name('sales.delete.contract');
+
+        // SALES CONTRACTS REPORTS
+        Route::get('/sales/all/expire/contracts', 'SalesAllExpireContracts')->name('sales.all.expire.contracts');
+        Route::get('/sales/new/contracts/report', 'SalesNewContractsReport')->name('sales.new.contracts.report');
+        Route::get('/sales/new/clients/report', 'SalesNewClientsReport')->name('sales.new.clients.report');
 
     });
 
@@ -147,7 +154,7 @@ Route::middleware(['auth','role:admin'])->group(function() {
         Route::post('/save/editclient', 'SaveEditClient')->name('save.editclient');
         Route::get('/delete/client/{id}', 'DeleteClient')->name('delete.client');
 
-
+        Route::get('/new/clients/report', 'NewClientsReport')->name('new.clients.report');
 
     });
 
@@ -181,7 +188,11 @@ Route::middleware(['auth','role:admin'])->group(function() {
         Route::post('/store/newcontract', 'StoreNewContract')->name('store.newcontract');
         Route::get('/edit/contract/{id}', 'EditContract')->name('edit.contract');
         Route::post('/save/editcontract', 'SaveEditContract')->name('save.editcontract');
-        //Route::get('/delete/client/{id}', 'DeleteClient')->name('delete.client');
+        Route::get('/delete/contract/{id}', 'DeleteContract')->name('delete.contract');
+
+        // CONTRACTS REPORT
+        Route::get('/all/expire/contracts', 'AllExpireContracts')->name('all.expire.contracts');
+        Route::get('/new/contracts/report', 'NewContractsReport')->name('new.contracts.report');
 
     });
 

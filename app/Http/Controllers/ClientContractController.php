@@ -24,8 +24,9 @@ class ClientContractController extends Controller
         ->get();
 
         $quarterly_proposals = '';
+        $approval_rate = '';
         
-        return view('backend.contract.all_contracts',compact('createdContracts','quarterly_proposals'));
+        return view('backend.contract.all_contracts',compact('createdContracts','quarterly_proposals','approval_rate'));
 
     }    
 
@@ -34,9 +35,9 @@ class ClientContractController extends Controller
     public function NewContract(){
 
         //$clientData = DQClients::latest()
-        //$clientData = DQClients::query()
-        $clientData = DB::table('clients')
-        ->query()
+        $clientData = DQClients::query()
+        //$clientData = DB::table('clients')
+        //->query()
         ->orderBy('client_name')
         ->get();
         //$userData = User::latest()->get();
@@ -46,7 +47,10 @@ class ClientContractController extends Controller
     
         //return view('my_view', compact('roles', 'selectedRole');
 
-        return view('backend.contract.new_contract',compact('clientData','userData'));
+        $quarterly_proposals = '';
+        $approval_rate = '';
+
+        return view('backend.contract.new_contract',compact('clientData','userData','quarterly_proposals','approval_rate'));
 
     }
 
@@ -102,16 +106,19 @@ class ClientContractController extends Controller
 
         $contractData = clientcontract::findOrFail($id);
 
-        //$clientData = DQClients::query()
-        $clientData = DB::table('clients')
-        ->query()
+        $clientData = DQClients::query()
+        //$clientData = DB::table('clients')
+        //->query()
         ->orderBy('client_name')
         ->get();
 
         $id = Auth::user()->id;
         $userData = User::find($id);
 
-        return view('backend.contract.edit_contract',compact('contractData','userData','clientData'));
+        $quarterly_proposals = '';
+        $approval_rate = '';
+
+        return view('backend.contract.edit_contract',compact('contractData','userData','clientData','quarterly_proposals','approval_rate'));
 
     }
 
@@ -170,17 +177,68 @@ class ClientContractController extends Controller
 }
 
 
+    // Delete contract
+    public function DeleteContract($id){
+
+        clientcontract::findOrFail($id)->delete();
+        //DB::table('clients')->findOrFail($id)->delete();
+
+        $notification = array(
+            'message' => 'Contract Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        // page refresh
+        return redirect()->back()->with($notification); 
+        //$quarterly_proposals = '';
+        //return view('backend.client.all_client',compact('quarterly_proposals'))->with($notification);
+
+    }
+
+    // Approaching / expired contract
+    public function AllExpireContracts(){
+
+        //  contracts approaching expiration metric
+        //$allExpiredContractData = clientcontract::whereBetween('contract_end', [now(),now()->addDays(60)])
+        // ->select('*')
+        // ->get();
+ 
+         $allExpiredContractData = DB::table('clients')
+         ->join('clientcontracts','clients.id','=','clientcontracts.client_id')
+         ->join('users','users.id','=','clientcontracts.createdby_user_id')
+         ->whereBetween('clientcontracts.contract_end', [now(),now()->addDays(60)])
+         ->select('clientcontracts.*','clients.client_name','users.name')
+         ->get();
+
+
+        $quarterly_proposals = '';
+        $approval_rate = '';
+
+        return view('backend.contract.all_expire_contracts',compact('allExpiredContractData','quarterly_proposals','approval_rate'));
+     }
+
+
+ // New contracts report
+ public function NewContractsReport(){
 
 
 
+     $newContractsData = DB::table('clients')
+     ->join('clientcontracts','clients.id','=','clientcontracts.client_id')
+     ->join('users','users.id','=','clientcontracts.createdby_user_id')
+     ->whereDate('clientcontracts.created_at', '>', now()->subDays(30))
+     ->select('clientcontracts.*','clients.client_name','users.name')
+     ->get();
 
 
+    $quarterly_proposals = '';
+    $approval_rate = '';
+
+    return view('backend.contract.new_contracts_report',compact('newContractsData','quarterly_proposals','approval_rate'));
+ }
 
 
-
-
-
-}
+} // end of controller
 
 
 

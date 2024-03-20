@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\DQClients;
+use App\Models\clientcontract;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -141,13 +142,34 @@ class ClientController extends Controller
     // Delete client
     public function DeleteClient($id){
 
-        DQClients::findOrFail($id)->delete();
+        //DQClients::findOrFail($id)->delete();
         //DB::table('clients')->findOrFail($id)->delete();
 
-        $notification = array(
-            'message' => 'Client Deleted Successfully',
-            'alert-type' => 'success'
-        );
+        $haveContract = clientcontract::where('client_id','=',$id)
+        ->select('id')
+        ->count();
+
+        //dd($haveContract);
+
+        if($haveContract == 0){
+
+            DQClients::findOrFail($id)->delete();
+
+            $notification = array(
+                'message' => 'Client Deleted Successfully',
+                'alert-type' => 'success'
+            );
+        }
+        else{
+
+            $notification = array(
+                'message' => 'Cannot delete a client with an existing contract!',
+                'alert-type' => 'warning'
+            );
+    
+        }
+        
+
 
         // page refresh
         return redirect()->back()->with($notification); 
@@ -156,6 +178,22 @@ class ClientController extends Controller
 
     }
 
+
+
+    // View all new clients
+    public function NewClientsReport(){
+
+        $newClientsData = DQClients::whereDate('created_at', '>', now()->subDays(30))
+        //$registeredClients = DB::table('clients')
+        //->latest()
+        ->get();
+        
+        $quarterly_proposals = '';
+        $approval_rate='';
+        
+        return view('backend.client.new_clients_report',compact('newClientsData','quarterly_proposals','approval_rate'));
+
+    }
 
 
 

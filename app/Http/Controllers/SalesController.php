@@ -236,12 +236,29 @@ class SalesController extends Controller
   // Delete client
   public function SalesDeleteClient($id){
 
-    DQClients::findOrFail($id)->delete();
+    $haveContract = clientcontract::where('client_id','=',$id)
+    ->select('id')
+    ->count();
 
-    $notification = array(
-        'message' => 'Client Deleted Successfully',
-        'alert-type' => 'success'
-    );
+    //dd($haveContract);
+
+    if($haveContract == 0){
+
+        DQClients::findOrFail($id)->delete();
+
+        $notification = array(
+            'message' => 'Client Deleted Successfully',
+            'alert-type' => 'success'
+        );
+    }
+    else{
+
+        $notification = array(
+            'message' => 'Cannot delete a client with an existing contract!',
+            'alert-type' => 'warning'
+        );
+
+    }
 
     // page refresh
     return redirect()->route('sales.all.client')->with($notification);
@@ -498,6 +515,83 @@ public function SalesStoreNewContract(Request $request){
 
 }
 
+
+
+    // Delete contract
+    public function SalesDeleteContract($id){
+
+        clientcontract::findOrFail($id)->delete();
+        //DB::table('clients')->findOrFail($id)->delete();
+
+        $notification = array(
+            'message' => 'Contract Deleted Successfully',
+            'alert-type' => 'success'
+        );
+
+        // page refresh
+        return redirect()->back()->with($notification); 
+        //$quarterly_proposals = '';
+        //return view('backend.client.all_client',compact('quarterly_proposals'))->with($notification);
+
+    }
+
+
+
+    // Approaching / expired contract
+    public function SalesAllExpireContracts(){
+
+        //  contracts approaching expiration metric
+        //$allExpiredContractData = clientcontract::whereBetween('contract_end', [now(),now()->addDays(60)])
+        // ->select('*')
+        // ->get();
+ 
+         $allExpiredContractData = DB::table('clients')
+         ->join('clientcontracts','clients.id','=','clientcontracts.client_id')
+         ->join('users','users.id','=','clientcontracts.createdby_user_id')
+         ->whereBetween('clientcontracts.contract_end', [now(),now()->addDays(60)])
+         ->select('clientcontracts.*','clients.client_name','users.name')
+         ->get();
+
+
+        $quarterly_proposals = '';
+        $approval_rate = '';
+
+        return view('backend.contract.sales_all_expire_contracts',compact('allExpiredContractData','quarterly_proposals','approval_rate'));
+     }    
+
+
+ // New contracts report
+    public function SalesNewContractsReport(){
+
+        $newContractsData = DB::table('clients')
+        ->join('clientcontracts','clients.id','=','clientcontracts.client_id')
+        ->join('users','users.id','=','clientcontracts.createdby_user_id')
+        ->whereDate('clientcontracts.created_at', '>', now()->subDays(30))
+        ->select('clientcontracts.*','clients.client_name','users.name')
+        ->get();
+
+
+        $quarterly_proposals = '';
+        $approval_rate = '';
+
+        return view('backend.contract.sales_new_contracts_report',compact('newContractsData','quarterly_proposals','approval_rate'));
+    }     
+
+
+    // New clients report
+    public function SalesNewClientsReport(){
+
+        $newClientsData = DQClients::whereDate('created_at', '>', now()->subDays(30))
+        //$registeredClients = DB::table('clients')
+        //->latest()
+        ->get();
+        
+        $quarterly_proposals = '';
+        $approval_rate='';
+        
+        return view('backend.client.sales_new_clients_report',compact('newClientsData','quarterly_proposals','approval_rate'));
+
+    }
 
 
 

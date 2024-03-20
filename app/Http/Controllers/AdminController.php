@@ -23,7 +23,7 @@ class AdminController extends Controller
         //  new clients metric
         $clientDataDB = DQClients::whereDate('created_at', '>', now()->subDays(30))
         //$clientDataDB = DB::table('clients')
-        ->whereDate('created_at', '>', now()->subDays(30))
+        //->whereDate('created_at', '>', now()->subDays(30))
         ->select('id')
         ->count();
 
@@ -425,6 +425,9 @@ class AdminController extends Controller
         //return view('admin.admin_profile_view',compact('profileData'));
 
     }        
+
+
+
 
 
 } # end of controller

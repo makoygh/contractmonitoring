@@ -1,1 +1,1 @@
-This is a beta version of my IS226 DQ Contract Monitoring Web App
+This is a personal project related to Contract Management.
